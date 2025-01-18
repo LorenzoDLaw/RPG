@@ -8,6 +8,7 @@ module RPG {
     requires javafx.controls;
     requires javafx.fxml;
 	requires javafx.graphics;
+	requires java.desktop;
 
-    exports lorenzo.scanu; // Export the package containing Main
+    exports main; // Export the package containing Main
 }
