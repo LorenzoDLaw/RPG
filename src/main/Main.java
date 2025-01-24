@@ -1,19 +1,12 @@
 package main;
 
-
-
-import Entity.Entity;
-import Entity.Protagonist;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -32,17 +25,9 @@ public class Main extends Application {
     boolean menuAttivo = false;
     boolean battleOn = false;
     
-    VBox menu;
+    Pane menu;
     Pane word; 
     Pane battle;
-    
-    /*public Protagonist protagonist = new Protagonist();
-    public Image x = protagonist.getImage(1);
-    public ImageView spritePersonaggio = new ImageView(x);
-    private int walkFrameUp = 0;
-    private int walkFrameLeft = 0;
-    private int walkFrameDown = 0;
-    private int walkFrameRight = 0;*/
     
     Timeline timelineGioco = new Timeline(new KeyFrame(
             Duration.seconds(0.5), // ogni quanto va chiamata la funzione
@@ -53,7 +38,7 @@ public class Main extends Application {
 	     mainScene = new Scene(root, WIDTH_GIOCO, HEIGHT_GIOCO);
 	     
 	     wordManager = new GameWordMeaager(WIDTH_GIOCO, HEIGHT_GIOCO);
-	     menuManager = new MenuManager();
+	     menuManager = new MenuManager(WIDTH_GIOCO, HEIGHT_GIOCO);
 	     battleMenager = new Battle(WIDTH_GIOCO, HEIGHT_GIOCO);
 	     battleMenager.setOnRunCallback(() -> runFromBattle());
 
@@ -61,12 +46,6 @@ public class Main extends Application {
 	     menu = menuManager.getMenu();
 	     word = wordManager.getWord();
 	     battle = battleMenager.getBattle();
-	     /*protagonist.setImageWalk();
-	     //x = protagonist.getImage(1);
-	     spritePersonaggio = new ImageView(protagonist.getImage(1));
-	     spritePersonaggio.setLayoutX(WIDTH_GIOCO/3);
-	     spritePersonaggio.setLayoutY(HEIGHT_GIOCO/2);
-	     word.getChildren().add(spritePersonaggio);*/
 	     root.getChildren().addAll(word);
 	   
 	     stageFinestra.setScene(mainScene);
@@ -87,17 +66,27 @@ public class Main extends Application {
 	
 	// Modifica la posizione del personaggio in base alla pressione dei tasti
 	private void handleInput(KeyCode code) {
-	    if (code == KeyCode.ESCAPE) {
-	        if (!menuAttivo) {
+		System.out.println("IN keyCode");
+	    if (code == KeyCode.Q) {
+	    	System.out.println("Q");
+	        if (menuAttivo) {
+	        	
+	            // Se un sotto-menu è aperto, chiudilo prima
+	            if (menuManager.isItemMenuOn()) {
+	                menuManager.closeMenu();
+	            } else {
+	                // Altrimenti chiudi il menu principale
+	                root.getChildren().remove(menu);
+	                menuAttivo = false;
+	                timelineGioco.play();
+	            }
+	        } else {
+	            // Apri il menu principale
 	            root.getChildren().add(menu);
 	            menuAttivo = true;
 	            timelineGioco.stop();
-	        } else {
-	            root.getChildren().remove(menu);
-	            menuAttivo = false;
-	            timelineGioco.play();
 	        }
-	    }else if (code == KeyCode.B) {
+	    } else if (code == KeyCode.B) {
 	        if (battleOn) {
 	            root.getChildren().remove(battle);
 	            root.getChildren().add(word);
@@ -107,23 +96,17 @@ public class Main extends Application {
 	            root.getChildren().add(battle);
 	            battleOn = true;
 	        }
-	    }else switch (code) {
-		case W:
-			wordManager.moveUp();
-			break;
-		case S:
-			wordManager.moveDown();
-			break;
-		case A:
-			wordManager.moveLeft();
-			break;
-		case D:
-			wordManager.moveRight();
-			break;
-		default:
-			break;
-		}
+	    } else {
+	        switch (code) {
+	            case W -> wordManager.moveUp();
+	            case S -> wordManager.moveDown();
+	            case A -> wordManager.moveLeft();
+	            case D -> wordManager.moveRight();
+	            default -> {}
+	        }
+	    }
 	}
+
 
 
 
