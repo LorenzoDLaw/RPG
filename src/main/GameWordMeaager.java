@@ -10,8 +10,6 @@ import javafx.scene.layout.Pane;
 
 public class GameWordMeaager {
 	private Pane word;
-	public Image backgroundImage = new Image(getClass().getResourceAsStream("/immagini/map.jpg"));
-	public ImageView imageView = new ImageView(backgroundImage);
 	
 	public Protagonist protagonist = new Protagonist();
 	public Image x = protagonist.getImage(1);
@@ -24,17 +22,11 @@ public class GameWordMeaager {
 	public GameWordMeaager(int WIDTH_GIOCO,int HEIGHT_GIOCO) {
 		word = new Pane(); 
 		
-		backgroundImage = new Image(getClass().getResourceAsStream("/immagini/map.jpg"));
-		imageView = new ImageView(backgroundImage);
-		
-		imageView.setFitWidth(WIDTH_GIOCO); 
-		imageView.setFitHeight(HEIGHT_GIOCO);
-		
 		protagonist.setImageWalk();
 		spritePersonaggio = new ImageView(protagonist.getImage(1));
 	    spritePersonaggio.setLayoutX(WIDTH_GIOCO/3);
 	    spritePersonaggio.setLayoutY(HEIGHT_GIOCO/2);
-	    word.getChildren().addAll(spritePersonaggio,imageView);
+	    word.getChildren().addAll(spritePersonaggio);
 		
 	}
 	

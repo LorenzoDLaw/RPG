@@ -30,9 +30,6 @@ public class Protagonist extends Entity{
     // Inventory and cash
     private int cash;
     private List<String> inventory;
-
-    
-    public Image staticImg = new Image(getClass().getResourceAsStream("/immagini/Protagonist.png"));
     
     
     // Constructors

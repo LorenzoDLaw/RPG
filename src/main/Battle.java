@@ -58,9 +58,7 @@ public class Battle {
 
         // Set positions dynamically based on width and height
 
-        battleGrid.add(playerHealthBar, 0,0,1,2);
-        battleGrid.add(playerManaBar, 0,1);
-        battleGrid.add(enemyHealthBar, 4,0);
+        
 
         HBox hboxBattle = new HBox(50); // 10 pixels spacing between children
         hboxBattle.getChildren().addAll(btnMeleAttack, btnManaAttack, btnInventory, btnRun);

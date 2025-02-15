@@ -19,8 +19,13 @@ public class Main extends Application {
     private MenuManager menuManager;
     private Battle battleMenager;
     
-    final public int WIDTH_GIOCO = 1100;
-    final public int HEIGHT_GIOCO = 700;
+    int defaultTileSize = 16;
+    int scale = 3;
+    int tilesSize = defaultTileSize * scale;
+    int gameColoum = 16;
+    int gameRow = 12;
+    final int WIDTH_GIOCO = gameColoum * tilesSize;
+    final int HEIGHT_GIOCO = gameRow * tilesSize;
     
     boolean menuAttivo = false;
     boolean battleOn = false;
@@ -63,8 +68,7 @@ public class Main extends Application {
 	     
 	}
 	
-	
-	// Modifica la posizione del personaggio in base alla pressione dei tasti
+
 	private void handleInput(KeyCode code) {
 		System.out.println("IN keyCode");
 	    if (code == KeyCode.Q) {
@@ -97,7 +101,8 @@ public class Main extends Application {
 	            battleOn = true;
 	        }
 	    } else {
-	        switch (code) {
+	    	// Modifica la posizione del personaggio in base alla pressione dei tasti 
+	        switch (code) { // vado a richiamare nel GameWOrdMenager metodi per muovere il personaggio
 	            case W -> wordManager.moveUp();
 	            case S -> wordManager.moveDown();
 	            case A -> wordManager.moveLeft();
@@ -107,11 +112,7 @@ public class Main extends Application {
 	    }
 	}
 
-
-
-
-
-	public void runFromBattle() {
+	public void runFromBattle() { //Metodo per uscire dalla battaglia durante la fase di battaglia nel gioco
 		root.getChildren().remove(battle);
         root.getChildren().add(word);
         battleOn = false; // Aggiorna lo stato
